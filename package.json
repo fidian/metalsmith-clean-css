@@ -1,5 +1,5 @@
 {
-  "name": "metalsmith-clean-css",
+  "name": "@fidian/metalsmith-clean-css",
   "version": "6.2.0",
   "description": "A Metalsmith plugin to minify CSS files",
   "homepage": "https://github.com/fidian/metalsmith-clean-css",
