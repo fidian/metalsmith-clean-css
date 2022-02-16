@@ -6,26 +6,30 @@ const test = require('ava');
 
 const build = path.join(__dirname, 'build');
 // Make sure the build is cleaned before/after each test
-test.beforeEach.cb(t => {
-	rimraf(build, t.end);
+test.beforeEach(t => {
+	rimraf(build, () => {});
 });
-test.afterEach.always.cb(t => {
-	rimraf(build, t.end);
+test.afterEach.always(t => {
+	rimraf(build, () => {});
 });
 
-test.serial.cb('the example should build successfully', t => {
-	t.plan(3);
-	execFile(
-		'node',
-		[path.join(__dirname, 'build.js')],
-		{cwd: path.join(__dirname, '..')},
-		error => {
-			t.falsy(error);
-			fs.lstat(build, (error, stats) => {
-				t.falsy(error);
-				t.true(stats.isDirectory());
-				t.end();
-			});
-		}
-	);
+test.serial('the example should build successfully', t => {
+    return new Promise((resolve, reject) => {
+        execFile(
+            'node',
+            [path.join(__dirname, 'build.js')],
+            {cwd: path.join(__dirname, '..')},
+            error => {
+                if (error) {
+                    reject(error);
+                }
+
+                fs.lstat(build, (error, stats) => {
+                    t.falsy(error);
+                    t.true(stats.isDirectory());
+                    resolve();
+                });
+            }
+        );
+    });
 });
