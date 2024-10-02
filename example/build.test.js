@@ -7,20 +7,10 @@ const test = require('ava');
 const build = path.join(__dirname, 'build');
 // Make sure the build is cleaned before/after each test
 test.beforeEach((t) => {
-    return new Promise((resolve, reject) => {
-        rimraf(build, (err) => {
-            if (err) reject(err);
-            resolve();
-        });
-    });
+    return rimraf.rimraf(build);
 });
 test.afterEach.always((t) => {
-    return new Promise((resolve, reject) => {
-        rimraf(build, (err) => {
-            if (err) reject(err);
-            resolve();
-        });
-    });
+    return rimraf.rimraf(build);
 });
 
 test.serial('the example should build successfully', (t) => {
